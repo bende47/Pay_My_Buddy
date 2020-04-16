@@ -29,7 +29,7 @@ public class User implements Serializable{
 	private String password;
 	private String nom;
 	private String prenoms;
-	private String telephone;
+	private String contact;
 	private Date datederniereconnexion;
 	private boolean statut;
 	
