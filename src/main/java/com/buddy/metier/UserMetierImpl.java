@@ -24,18 +24,16 @@ public class UserMetierImpl implements UserMetier{
 	public User addUser(User user) {
 		try {
 			
-			 String email = BCrypt.hashpw(user.getEmail(), BCrypt.gensalt());
 			 String password = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
 			 
-			 User us = userDao.getUserByEmail(email);
+			 User us = userDao.getUserByEmail(user.getEmail());
 			 
 			 if(us!=null) {
 				 logger.info("User existe déjà ");
 				 return us; 
 			 }else {
-				 user.setEmail(email);
-				 user.setPassword(password);
-				 
+				 user.setPassword(password);	
+				 user.setStatut(true);
 				 if(userDao.save(user)!=null) {
 					 logger.info("User ajouté avec succès ");
 					 return user;
@@ -47,7 +45,7 @@ public class UserMetierImpl implements UserMetier{
 			
 			
 		} catch (Exception e) {
-			logger.error("Erreur lors de l'ajout d'un user " + e.toString());
+			logger.error("Erreur lors de l'ajout d'un user " + e);
 			return null;
 		}
 	}
@@ -59,21 +57,22 @@ public class UserMetierImpl implements UserMetier{
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		// TODO Auto-generated method stub
-		
+	public User deleteUser(Long iduser) {
+		try {
+			user=new User();
+			user=userDao.getUserById(iduser);
+			if(user != null) {
+				user.setStatut(false);
+				userDao.save(user);
+				logger.info("User supprimé avec succès ");
+			}	
+			return user;
+			
+		} catch (Exception e) {
+			logger.error("Erreur lors du changement de statut d'un user " + e);
+			return null;
+		}
 	}
 
-	@Override
-	public User getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User getUserByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
