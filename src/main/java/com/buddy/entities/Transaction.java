@@ -33,7 +33,7 @@ public class Transaction implements Serializable{
 	private Double amount_red;
 	private Double amount_vers;
 	private Date datecreation;
-	private int idcompte_rec;
+	private int idcpte_rec;
 	
 	@ManyToOne
 	@JoinColumn(name = "idcpte")
