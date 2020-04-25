@@ -1,54 +1,38 @@
 package com.buddy.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-public class Compte implements Serializable {
+public class Connections implements Serializable{
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idcpte;
-	private Double solde;
+	private Long id;
 	private Date datecreation;
- 
-	@JsonIgnore
-	@OneToMany(mappedBy = "compte", cascade = CascadeType.ALL)
-	private Collection<Transactions> transactions;	
+	private Long iduser_con;
 	
 	@ManyToOne
 	@JoinColumn(name = "iduser")
 	private User user;
 
-	public Long getIdcpte() {
-		return idcpte;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdcpte(Long idcpte) {
-		this.idcpte = idcpte;
-	}
-
-	public Double getSolde() {
-		return solde;
-	}
-
-	public void setSolde(Double solde) {
-		this.solde = solde;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Date getDatecreation() {
@@ -59,12 +43,12 @@ public class Compte implements Serializable {
 		this.datecreation = datecreation;
 	}
 
-	public Collection<Transactions> getTransactions() {
-		return transactions;
+	public Long getIduser_con() {
+		return iduser_con;
 	}
 
-	public void setTransactions(Collection<Transactions> transactions) {
-		this.transactions = transactions;
+	public void setIduser_con(Long iduser_con) {
+		this.iduser_con = iduser_con;
 	}
 
 	public User getUser() {
@@ -75,19 +59,17 @@ public class Compte implements Serializable {
 		this.user = user;
 	}
 
-	public Compte() {
+	public Connections() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Compte(Double solde, Date datecreation, User user) {
+	public Connections(Date datecreation, Long iduser_con, User user) {
 		super();
-		this.solde = solde;
 		this.datecreation = datecreation;
+		this.iduser_con = iduser_con;
 		this.user = user;
 	}
-	
-	
 	
 	
 	
