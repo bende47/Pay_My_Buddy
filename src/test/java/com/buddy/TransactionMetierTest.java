@@ -32,11 +32,11 @@ class TransactionMetierTest {
 	private TransactionDao transactionDao;	
 
 	@Autowired	
-	private UserDao userDao;
+	private UserDao userDao;	
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
 	@Transactional
+	@Sql({"/buddyTest.sql"}) 
 	public void addCompte() {
 		
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());
@@ -52,8 +52,8 @@ class TransactionMetierTest {
 	}
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
 	@Transactional
+	@Sql({"/buddyTest.sql"}) 
 	public void getCompteUserById() {
 		
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());
@@ -70,8 +70,8 @@ class TransactionMetierTest {
 	}
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
 	@Transactional
+	@Sql({"/buddyTest.sql"}) 
 	public void versement() {		
 		
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());
@@ -92,8 +92,8 @@ class TransactionMetierTest {
 	}
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
 	@Transactional
+	@Sql({"/buddyTest.sql"}) 
 	public void Retrait() {		
 		
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());
@@ -115,8 +115,8 @@ class TransactionMetierTest {
 	
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
 	@Transactional
+	@Sql({"/buddyTest.sql"}) 
 	public void Virement() {	
 		
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());

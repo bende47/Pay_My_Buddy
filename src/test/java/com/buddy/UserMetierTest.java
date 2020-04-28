@@ -2,7 +2,6 @@ package com.buddy;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.buddy.dao.UserDao;
 import com.buddy.entities.User;
@@ -30,6 +30,7 @@ public class UserMetierTest {
 	
 	
 	@Test	
+	@Transactional
 	@Sql({"/buddyTest.sql"})
 	@DisplayName("Add User")	
 	public void addUserTest() {
@@ -45,6 +46,7 @@ public class UserMetierTest {
 	
 	
 	@Test
+	@Transactional
 	@Sql({"/buddyTest.sql"})
 	@DisplayName("Login User")
 	public void loginTest() {	
@@ -63,6 +65,7 @@ public class UserMetierTest {
 	}
 	
 	@Test
+	@Transactional
 	@Sql({"/buddyTest.sql"})
 	@DisplayName("Liste User compte actif")
 	public void listUserCompteActifTest() {

@@ -43,31 +43,40 @@ public class TransactionMetierImpl implements TransactionMetier{
 	@Override
 	public Boolean verser(Long iduser, String description, Double amount) {
 		compte = compteDao.getCompteUserByIduser(iduser);
-		transaction = new Versement("Versement de "+ amount + " € sur mon compte", amount, 0.0, amount, new Date(), null,compte);
-		transactionDao.save(transaction);
-		if(transactionDao.save(transaction)!=null) {
-			compte.setSolde(compte.getSolde() + amount);
-			logger.info("Versement de "+ amount + " € sur mon compte");
-			return true;
+		if(compte!=null) {
+			transaction = new Versement("Versement de "+ amount + " € sur mon compte", amount, 0.0, amount, new Date(), null,compte);
+			transactionDao.save(transaction);
+			if(transactionDao.save(transaction)!=null) {
+				compte.setSolde(compte.getSolde() + amount);
+				logger.info("Versement de "+ amount + " € sur mon compte");
+				return true;
+			}else {
+				return false;
+
+			}
 		}else {
 			return false;
-
 		}
+		
 	}
 	
 	@Transactional
 	@Override
 	public Boolean retirer(Long iduser, String description, Double amount) {
 		compte = compteDao.getCompteUserByIduser(iduser);
-		transaction = new Retrait("Retrait de "+ amount + " € sur mon compte", amount, 0.0, amount, new Date(), null,compte);
-		
-		if(transactionDao.save(transaction)!=null) {
-			compte.setSolde(compte.getSolde() - amount);
-			logger.info("Retrait de "+ amount + " € sur mon compte");
-			return true;
+		if(compte!=null) {
+			transaction = new Retrait("Retrait de "+ amount + " € sur mon compte", amount, 0.0, amount, new Date(), null,compte);
+			
+			if(transactionDao.save(transaction)!=null) {
+				compte.setSolde(compte.getSolde() - amount);
+				logger.info("Retrait de "+ amount + " € sur mon compte");
+				return true;
+			}else {
+				return false;
+
+			}
 		}else {
 			return false;
-
 		}
 	}
 
@@ -75,25 +84,29 @@ public class TransactionMetierImpl implements TransactionMetier{
 	@Override
 	public Boolean virement(Long iduser, Long iduserrec, String description, Double amount) {	
 		retirer(iduser, description, amount);		
-		
-		Double montantverse = amount - (amount*0.005);
+		Compte compteUser = compteDao.getCompteUserByIduser(iduser);
 		compte = compteDao.getCompteUserByIduser(iduserrec);
-		transaction = new Versement("Virement de " + montantverse + " € à " + compte.getUser().getNom() +" " + compte.getUser().getPrenoms(), amount, amount*0.005, montantverse, new Date(), iduserrec,compte);
 		
-		if(transactionDao.save(transaction)!=null) {
-			compte.setSolde(compte.getSolde() + (amount - (amount*0.005)));	
-			logger.info("Retrait de "+ amount + " € sur mon compte et versement de " + montantverse + " € à " + compte.getUser().getNom() +" " + compte.getUser().getPrenoms() );
-			return true;	
+		if(compte!=null && compteUser!=null) {			
+
+			Double montantverse = amount - (amount*0.005);
+			transaction = new Versement("Virement de " + montantverse + " € à " + compte.getUser().getNom() +" " + compte.getUser().getPrenoms(), amount, amount*0.005, montantverse, new Date(), compteUser.getIdcpte(),compte);
+			
+			if(transactionDao.save(transaction)!=null) {
+				compte.setSolde(compte.getSolde() + (amount - (amount*0.005)));	
+				logger.info("Retrait de "+ amount + " € sur mon compte et versement de " + montantverse + " € à " + compte.getUser().getNom() +" " + compte.getUser().getPrenoms() );
+				return true;	
+			}else {
+				return false;
+			}
 		}else {
 			return false;
 		}
 		
-		
-		
 	}
 
 	@Override
-	public Page<Transactions> listTransactions(int page, int size) {
+	public Page<Transactions> listTransactions(Long idcompte,int page, int size) {
 	
 		Page<Transactions> pages = transactionDao.getAllTransaction(PageRequest.of(page, size));
 
@@ -105,23 +118,6 @@ public class TransactionMetierImpl implements TransactionMetier{
 		return compteDao.getCompteUserByIduser(idUser);
 	}
 
-	@Override
-	public Compte addCompte(Double solde,Long iduser) {
-		try {
-			User user = userDao.getUserById(iduser);
-			Compte compte = null;
-			
-			if(user!=null) {
-				compte = new Compte(solde, new Date(), user);
-				logger.info("Compte creé avec succès");
-				compteDao.save(compte);
-			}
-			return compte;
-			
-		} catch (Exception e) {
-			logger.info("Erreur lors de l'ajout du compte "+e);
-			return null;
-		}
-	}
+	
 
 }

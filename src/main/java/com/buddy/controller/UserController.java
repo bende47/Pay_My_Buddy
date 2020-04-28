@@ -17,29 +17,30 @@ import com.buddy.metier.UserMetier;
 @CrossOrigin("*")
 public class UserController {
 
-	@Autowired(required=true)
+	@Autowired
 	private UserMetier userMetier;
 	
+	
+	/**
+	 * Login user
+	 */
 	@GetMapping(value="/login/{email}/{password}")
 	public User login(@PathVariable String email,@PathVariable String password) {
 		return userMetier.login(email, password);
 	}
 	
+	/**
+	 * Ajout d'un user
+	 */
 	
 	@PostMapping(value="/addUser")
 	public User addUser(@RequestBody User user) {
 		return userMetier.addUser(user);
 	}
 	
-//	@GetMapping(value="/deleteUser/{iduser}")
-//	public User deleteUser(@PathVariable Long iduser) {
-//		return userMetier.deleteUser(iduser);
-//	}
-//	
-//	@PostMapping(value="/updateUser")
-//	public User updateUser(@RequestBody User user) {
-//		return userMetier.updateUser(user);
-//	}
+	/**
+	 * Liste des users compte actifs
+	 */
 	
 	@GetMapping(value="/allUser")
 	public List<User> allUser() {

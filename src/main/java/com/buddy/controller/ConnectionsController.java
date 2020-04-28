@@ -18,18 +18,21 @@ import com.buddy.metier.ConnectionMetier;
 @CrossOrigin("*")
 public class ConnectionsController {
 	
-	@Autowired(required=true)
+	@Autowired
 	private ConnectionMetier connectionMetier;
 
+	/**
+	 * Ajout d'une nouvelle connection
+	 */
+	
 	@GetMapping(value="/addConnection/{iduser}/{email}")
 	public Connections addConnection(@PathVariable Long iduser,@PathVariable String email) {
 		return connectionMetier.addConnection(iduser, email);
 	}
 	
-//	@GetMapping(value="/deleteConnection/{idc}")
-//	public Boolean deleteConnection(@PathVariable Long idc ){
-//		return connectionMetier.deleteConnection(idc);
-//	}
+	/**
+	 * Liste des connections du user
+	 */
 	
 	@GetMapping(value="/listConnection/{idc}")
 	public List<User> listConnection(@PathVariable Long idc ){

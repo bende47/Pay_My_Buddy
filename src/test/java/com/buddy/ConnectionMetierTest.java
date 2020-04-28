@@ -27,7 +27,7 @@ public class ConnectionMetierTest {
 	private ConnectionDao connectionDao;
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
+	@Sql({"/buddyTest.sql"}) 
 	public void addConnection() {
 		
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());
@@ -46,7 +46,7 @@ public class ConnectionMetierTest {
 	
 	
 	@Test
-	@Sql({"/buddyTest.sql"})
+	@Sql({"/buddyTest.sql"}) 
 	public void getConnectionByUser() {	
 	
 		String password = BCrypt.hashpw("azerty", BCrypt.gensalt());
